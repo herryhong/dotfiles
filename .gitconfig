@@ -7,7 +7,7 @@
 	s = status -s
 
 	# Show the diff between the latest commit and the current state
-	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+	d = difftool
 
 	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
 	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
@@ -128,12 +128,13 @@
 [commit]
 
 	# https://help.github.com/articles/signing-commits-using-gpg/
-	gpgsign = true
+	gpgsign = false
 
 [diff]
 
 	# Detect copies as well as renames
 	renames = copies
+	tool = vimdiff
 
 [diff "bin"]
 
@@ -149,6 +150,7 @@
 
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+	tool = meld
 
 [push]
 
@@ -180,3 +182,15 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+[difftool]
+	prompt = false
+[user]
+	name = hongzeguo
+[config]
+	gpgsign = false
+
+[mergetool]
+      prompt = false
+[mergetool "meld"]
+      trustExitCode = true
+      cmd = open -W -a Meld --args --auto-merge \"$PWD/$LOCAL\" \"$PWD/$BASE\" \"$PWD/$REMOTE\" --output=\"$PWD/$MERGED\"
